@@ -1,41 +1,130 @@
-# web-scraping-challenge
+# Unit 12 Homework: Mission to Mars
 
-# Mission To Mars
+In this assignment, you will build a web application that scrapes various websites for data related to the Mission to Mars and displays the information in a single HTML page. The following information outlines what you need to do.
 
-# Deliverable 1: Scrape Titles and Preview Text from Mars News (40 points)
+## Before You Begin
 
-## Deliverable 1 Instructions
-1. Create a new Jupyter notebook named mars_data_challenge_part_1.ipynb.
-2. Scrape the [Mars News](https://redplanetscience.com/) website by using Splinter and Beautiful Soup. Specifically, scrape the title and preview text, or summary text, of each article on the landing page.
-3. Store the scraping results in Python data structures as follows:
-  - Store each title-and-preview pair in a Python dictionary. And, give each dictionary two keys: `title` and `preview`. An example is the following:
-  - ```{'title': "Mars Rover Begins Mission!", 'preview': "NASA's Mars Rover begins a multiyear mission to collect data about the little-explored planet."}```
-  - Store all the dictionaries in a Python list
-  - Print the list in your notebook
-4. Optionally, store the scraped data in a file or database (to ease sharing the data with others). To do so, export the scraped data to either a JSON file or a MongoDB database.
+1. Create a new repository for this project called `web-scraping-challenge`. **Do not add this homework to an existing repository**.
 
-# Deliverable 2: Scrape and Analyze Mars Weather Data
+2. Clone the new repository to your computer.
 
-## Deliverable 2 Instructions
+3. Inside your local Git repository, create a directory for the web scraping challenge. Use a folder name that corresponds to the challenge: `Missions_to_Mars`.
 
-1. Create a Jupyter notebook named `mars_data_challenge_part_2.ipynb`. Import the relevant dependencies for web scraping, Pandas, and Matplotlib.
-2. With yor automated browser, visit the [Mars Temperature Data](https://data-class-mars-challenge.s3.amazonaws.com/Mars/index.html) site. Note that the url is ```https://data-class-mars-challenge.s3.amazonaws.com/Mars/index.html```
-3. Scrape the data in the HTML table. To do so, choose one of two ways. The first, simpler way is to use Pandas's ```read_html``` method. The second, slightly more challenging way is to manually scrape the data by using Splinter and Beautiful Soup. We highly encourage you to choose the latter to reinforce your scraping skills.
-4. Assemble the scraped data into a Pandas DataFrame. The columns should have the same headings as the table on the website. Here’s an explanation of the column headings:
-  - The `id` heading: The identification number of a single transmission from the Curiosity rover.
-  - The `terrestrial_date` heading: The date on Earth.
-  - The `sol` heading: The number of elapsed sols (Martian days) since Curiosity landed on Mars.
-  - The `ls` heading: The solar longitude.
-  - The `month` heading: The Martian month.
-  - The `min_temp` heading: The minimum temperature, in Celsius, of a single Martian day (sol).
-  - The `pressure` heading: The atmospheric pressure at Curiosity's location.
-5. Examine the data types of all the DataFrame columns. If necessary, cast (or convert) the data to the appropriate `datetime`, `int`, or `float` data types.
-6. Answer the following question: How many months exist on Mars?
-7. Answer the following question: How many Martian (and not Earth) days worth of data exist in the scraped dataset?
-8. Answer the following question: What are the coldest and the warmest months on Mars (at the location of Curiosity)? Get the answer by averaging the minimum daily temperature of all the months. Plot the results as a bar chart.
-9. Answer the following question: Which months have the lowest and the highest atmospheric pressure on Mars? Get the answer by averaging the daily atmospheric pressure of all the months. Plot the results as a bar chart.
-10. Answer the following question: About how many terrestrial (Earth) days exist in a Martian year? That is, in the time that Mars circles the Sun once, how many days elapse on Earth? Visually estimate the result by plotting the daily minimum temperature.
-11. Export the DataFrame to a CSV file.
+4. Add your notebook files to this folder as well as your Flask app.
 
-  
-  
+5. Push the above changes to GitHub.
+
+## Instructions 
+
+The instructions for this assignment are divided into three parts: 
+
+1. Scraping 
+
+2. MongoDB and Flask Application
+
+3. Submission 
+
+## Part  1: Scraping
+
+Complete your initial scraping using Jupyter Notebook, BeautifulSoup, Pandas, and Requests/Splinter.
+
+* Create a Jupyter Notebook file called `mission_to_mars.ipynb`. Use this file to complete all your scraping and analysis tasks. The following information outlines what you need to scrape.
+
+### NASA Mars News
+
+* Scrape the [Mars News Site](https://redplanetscience.com/) and collect the latest News Title and Paragraph Text. Assign the text to variables that you can reference later.
+
+```python
+# Example:
+news_title = "NASA's Next Mars Mission to Investigate Interior of Red Planet"
+
+news_p = "Preparation of NASA's next spacecraft to Mars, InSight, has ramped up this summer, on course for launch next May from Vandenberg Air Force Base in central California -- the first interplanetary launch in history from America's West Coast."
+```
+
+### JPL Mars Space Images—Featured Image
+
+* Visit the URL for the Featured Space Image site [here](https://spaceimages-mars.com).
+
+* Use Splinter to navigate the site and find the image URL for the current Featured Mars Image, then assign the URL string to a variable called `featured_image_url`.
+
+* Be sure to find the image URL to the full-sized `.jpg` image.
+
+* Be sure to save a complete URL string for this image.
+
+```python
+# Example:
+featured_image_url = 'https://spaceimages-mars.com/image/featured/mars2.jpg'
+```
+
+### Mars Facts
+
+* Visit the [Mars Facts webpage](https://galaxyfacts-mars.com) and use Pandas to scrape the table containing facts about the planet including diameter, mass, etc.
+
+* Use Pandas to convert the data to a HTML table string.
+
+### Mars Hemispheres
+
+* Visit the [astrogeology site](https://marshemispheres.com/) to obtain high-resolution images for each hemisphere of Mars.
+
+* You will need to click each of the links to the hemispheres in order to find the image URL to the full-resolution image.
+
+* Save the image URL string for the full resolution hemisphere image and the hemisphere title containing the hemisphere name. Use a Python dictionary to store the data using the keys `img_url` and `title`.
+
+* Append the dictionary with the image URL string and the hemisphere title to a list. This list will contain one dictionary for each hemisphere.
+
+```python
+# Example:
+hemisphere_image_urls = [
+    {"title": "Valles Marineris Hemisphere", "img_url": "..."},
+    {"title": "Cerberus Hemisphere", "img_url": "..."},
+    {"title": "Schiaparelli Hemisphere", "img_url": "..."},
+    {"title": "Syrtis Major Hemisphere", "img_url": "..."},
+]
+```
+
+- - -
+
+## Part 2: MongoDB and Flask Application
+
+Use MongoDB with Flask templating to create a new HTML page that displays all the information that was scraped from the URLs above.
+
+* Start by converting your Jupyter notebook into a Python script called `scrape_mars.py` by using a function called `scrape`. This function should  execute all your scraping code from above and return one Python dictionary containing all the scraped data.
+
+* Next, create a route called `/scrape` that will import your `scrape_mars.py` script and call your `scrape` function.
+
+  * Store the return value in Mongo as a Python dictionary.
+
+* Create a root route `/` that will query your Mongo database and pass the Mars data into an HTML template for displaying the data.
+
+* Create a template HTML file called `index.html` that will take the Mars data dictionary and display all the data in the appropriate HTML elements. Use the following as a guide for what the final product should look like, but feel free to create your own design.
+
+![final_app_part1.png](Images/final_app.png)
+
+- - -
+
+## Part 3: Submission
+
+To submit your work to BootCampSpot, create a new GitHub repository and upload the following:
+
+1. The Jupyter notebook containing the scraping code used
+
+2. Screenshots of your final application
+
+Ensure your repository has regular commits and a detailed `README.md` file. Then, submit the link to your new repository. 
+
+
+## Hints
+
+* Use Splinter to navigate the sites when needed and BeautifulSoup to help find and parse out the necessary data.
+
+* Use PyMongo for CRUD applications for your database. For this homework, you can simply overwrite the existing document each time the `/scrape` url is visited and new data is obtained.
+
+* Use Bootstrap to structure your HTML template.
+
+## Rubric
+
+[Unit 12 Homework Rubric](https://docs.google.com/document/d/1paGEIFS5yp2VQu6G8F45B4uj1t1t29zL73KEQrD0xpo/edit?usp=sharing)
+
+- - -
+
+© 2022 Trilogy Education Services, a 2U, Inc. brand. All Rights Reserved.
